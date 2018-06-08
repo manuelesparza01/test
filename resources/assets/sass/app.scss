@@ -1,0 +1,104 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ================================================================== */
+/*  Controls  */
+/* ================================================================== */
+#controls {
+	.button {
+		display: inline-block;
+		position: relative;
+
+		@media(max-width: 768px) {
+			width: 100%;
+		}
+
+		.back {
+			position: absolute;
+			width: 50px;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			@include smooth_transition(300ms);
+
+			@media(max-width: 768px) {
+				width: 100%;
+			}
+		}
+
+		img {
+			width: 26px;
+			margin: 12px;
+			vertical-align: middle;
+			z-index: 2;
+			position: relative;
+
+			&.offset {
+				margin-left: 13px;
+			}
+		}
+
+		.caption {
+			display: inline-block;
+			vertical-align: middle;
+			color: #fff;
+			margin: 12px;
+			margin-right: 24px;
+			font-size: 22px;
+			padding-top: 3px;
+			font-weight: 300;
+			letter-spacing: 1px;
+			z-index: 2;
+			position: relative;
+		}
+
+		&:hover {
+			.back {
+				width: 100%;
+			}
+		}
+	}
+
+	input {
+		display: inline-block;
+		font-family: "Noway";
+		font-size: 20px;
+		color: #fff;
+		margin: 12px 30px 12px 10px;
+		border-color: $cyan;
+		width: 350px;
+		@include smooth_transition(500ms);
+
+		&::placeholder {
+			color: #fff;
+			font-weight: 300;
+			font-size: 20px;
+		}
+
+		@media(max-width: 1024px) {
+			width: 250px;
+		}
+
+		@media(max-width: 768px) {
+			width: calc(100% - 1px);
+			margin: 30px 0;
+			padding: 6px 0;
+		}
+	}
+}
+
+

@@ -1,0 +1,535 @@
+/* ================================================================== */
+/*  Colors  */
+/* ================================================================== */
+$blue: rgb(0, 87, 129);
+$cyan: rgb(69, 185, 186);
+$magenta: rgb(229, 0, 126);
+$pink: rgb(248, 209, 227);
+/* ================================================================== */
+/*  Keyframes  */
+/* ================================================================== */
+@keyframes rotate_background_color {
+	0% { background-color: $blue; }
+	25% { background-color: $cyan; }
+	50% { background-color: $magenta; }
+	75% { background-color: $pink; }
+	100% { background-color: $blue; }
+}
+
+@keyframes rotate_assets_color {
+	0% { background-color: $cyan; }
+	25% { background-color: $blue; }
+	50% { background-color: $pink; }
+	75% { background-color: $magenta; }
+	100% { background-color: $cyan; }
+}
+
+@keyframes rotate_text_color {
+	0% { color: $cyan; }
+	25% { color: $blue; }
+	50% { color: $pink; }
+	75% { color: $magenta; }
+	100% { color: $cyan; }
+}
+
+@keyframes rotate_border_color {
+	0% { border-color: $cyan; }
+	25% { border-color: $blue; }
+	50% { border-color: $pink; }
+	75% { border-color: $magenta; }
+	100% { border-color: $cyan; }
+}
+/* ================================================================== */
+/*  Mixins  */
+/* ================================================================== */
+@mixin smooth_transition($time: 1s){
+	-webkit-transition: all $time ease;
+	-moz-transition: all $time ease;
+	-o-transition: all $time ease;
+	transition: all $time ease;
+}
+/* ================================================================== */
+/*  Fonts  */
+/* ================================================================== */
+@font-face {
+	font-family: "Noway";
+	src: url("../fonts/Noway-Thin.otf");
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: "Noway";
+	src: url("../fonts/Noway-Light.otf");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "Noway";
+	src: url("../fonts/Noway-Regular.otf");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "Noway";
+	src: url("../fonts/Noway-Medium.otf");
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "Noway";
+	src: url("../fonts/Noway-Bold.otf");
+	font-weight: 800;
+}
+/* ================================================================== */
+/*  General  */
+/* ================================================================== */
+body {
+	margin: 0;
+	font-family: "Noway";
+	text-align: center;
+	background-color: $blue;
+	min-height: 100vh;
+	@include smooth_transition(500ms);
+
+	&.loaded {
+		-webkit-animation: rotate_background_color 20s infinite; /* Safari 4.0 - 8.0 */
+		animation: rotate_background_color 20s infinite;
+	}
+}
+
+main {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+
+	@media(max-height: 768px) {
+		align-items: flex-start;
+	}
+
+	@media(max-width: 768px) {
+		align-items: flex-start;
+	}
+}
+
+h1 {
+    display: inline-block;
+    margin: 0;
+	text-transform: uppercase;
+	font-size: 82px;
+    letter-spacing: 2px;
+    line-height: 1;
+
+    @media(max-width: 480px) {
+		font-size: 17.08vw;
+	}
+}
+
+h2 {
+	font-size: 40px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin: 0.83em 0;
+
+    @media(max-width: 768px) {
+		margin: 20px 0;
+	}
+
+	@media(max-width: 480px) {
+		font-size: 8.33vw;
+	}
+}
+
+p {
+	display: inline-block;
+	margin: 0;
+    letter-spacing: 1px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+img {
+	max-width: 100%;
+}
+
+input {
+	background-color: transparent;
+	text-align: center;
+	border: none;
+	border-bottom: 3px solid #fff;
+	font-size: 26px;
+	padding: 5px;
+	color: #fff;
+
+	&:hover, &:active, &:focus {
+		outline: none;
+		box-shadow: none;
+	}
+}
+
+#content {
+	display: inline-block;
+	display: none;
+}
+
+.container {
+	padding: 30px 20px 0;
+	width: calc(100% - 40px);
+	display: inline-block;
+}
+/* ================================================================== */
+/*  Preloader  */
+/* ================================================================== */
+#preloader {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10000;
+	background-color: $blue;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include smooth_transition(500ms);
+
+	.canvas {
+		/// Aspect-Ratio
+		$aspect: 1.5;
+		/// This var is the initial width 
+		$canvas_width: 1024px;
+		/// Height is calculated from aspect-ratio (1.5)
+		$canvas_height: $canvas_width / $aspect;
+		$line_height: 1.5%;
+		/// Values
+		position: relative;
+		display: inline-block;
+		width: $canvas_width;
+		height: $canvas_height;
+		/// Bounds when the screen is small
+		max-width: 90%;
+		max-height: calc(90vw / #{$aspect});
+		@include smooth_transition(650ms);
+
+		.line {
+			/// All lines must be absolutes
+			position: absolute;
+			/// Height variation
+			height: $line_height;
+			min-height: 5px;
+			/// Init with width 0
+			width: 0; 
+			/// Rounded corners
+			border-radius: 50px;
+
+			background-color: $cyan;
+			display: inline-block;
+			@include smooth_transition(500ms);
+		}
+
+		.one {
+			top: 0%;
+			left: 50.1%;
+			transform-origin: left center;
+			transform: rotate(90deg);
+
+			&.done {
+				width: calc((101.3% / #{$aspect}) / 2);
+			}
+		}
+
+		.two {
+			top: 50%;
+			left: 50%;
+			transform-origin: left center;
+			transform: rotate(33.5deg);
+
+			&.done {
+				width: calc(59.6% + (#{$line_height} / 2));
+			}
+		}
+
+		.three {
+			top: 100%;
+			left: 0%;
+			transform-origin: left center;
+			transform: rotate(-33.5deg);
+
+			&.done {
+				width: calc(59.6% + (#{$line_height} / 2));
+			}
+		}
+
+		.four {
+			top: 50%;
+			left: calc(50% - (#{$line_height} / 4));
+
+			&.done {
+				width: calc(50% + (#{$line_height} / 2));
+			}
+		}
+
+		.five {
+			top: 100.2%;
+			left: 100%;
+			transform-origin: left center;
+			transform: rotate(-90deg);
+
+			&.done {
+				width: calc((102% / #{$aspect}) / 2);
+			}
+		}
+
+		.six {
+			top: 50.1%;
+			left: 100.3%;
+			transform-origin: left center;
+			transform: rotate(-146.5deg);
+
+			&.done {
+				width: calc(59.8% + (#{$line_height} / 2));
+			}
+		}
+
+		.seven {
+			top: 0%;
+			left: 50.4%;
+			transform-origin: left center;
+			transform: rotate(-213.5deg);
+
+			&.done {
+				width: calc(59.9% + (#{$line_height} / 2));
+			}
+		}
+
+		.eight {
+			top: 49.4%;
+			left: 0.1%;
+			transform-origin: left center;
+			transform: rotate(90deg);
+
+			&.done {
+				width: calc((102.5% / #{$aspect}) / 2);
+			}
+		}
+
+		.nine {
+			top: 100%;
+			left: calc(0.1% - (#{$line_height} / 4));
+
+			&.done {
+				width: calc(100.1% + (#{$line_height} / 2));
+			}
+		}
+	}
+
+	&.loaded {
+		background-color: transparent;
+		height: 35vh;
+		top: 90px;
+
+		@media(max-height: 900px) {
+			top: 0px;
+		}
+
+		@media(max-height: 768px) {
+			height: 225px;
+		}
+
+		@media(max-width: 768px) {
+			height: 225px;
+			top: 0px;
+		}
+
+		.canvas {
+			/// Aspect-Ratio
+			$aspect: 1.5;
+			/// This var is the initial width 
+			$canvas_width: 280px;
+			/// Height is calculated from aspect-ratio (1.5)
+			$canvas_height: $canvas_width / $aspect;
+			$line_height: 1.5%;
+			/// Values
+			width: $canvas_width;
+			height: $canvas_height;
+
+			.line {
+				background-color: $cyan;
+				-webkit-animation: rotate_assets_color 20s infinite; /* Safari 4.0 - 8.0 */
+				animation: rotate_assets_color 20s infinite;
+			}
+		}
+	}
+}
+/* ================================================================== */
+/*  Logo  */
+/* ================================================================== */
+#logo {
+	position: relative;
+	height: 280px;
+
+	@media(max-height: 900px) {
+		height: 120px;
+	}
+
+	@media(max-height: 768px) {
+		height: 190px;
+	}
+
+	@media(max-width: 768px) {
+		height: 190px;
+	}
+
+	img {
+		width: 250px;
+	}
+}
+/* ================================================================== */
+/*  Main Text  */
+/* ================================================================== */
+#description {
+
+	h1 {
+		color: #fff;
+	}
+
+	p {
+	    color: #fff;
+	    width: 350px;
+
+	    @media(max-width: 480px) {
+			width: 100%;
+		}
+	}
+}
+/* ================================================================== */
+/*  Construction Text  */
+/* ================================================================== */
+#status {
+	h2 {
+		color: $cyan;
+	}
+}
+
+body.loaded {
+	#status h2 {
+		-webkit-animation: rotate_text_color 20s infinite; /* Safari 4.0 - 8.0 */
+		animation: rotate_text_color 20s infinite;
+	}
+}
+/* ================================================================== */
+/*  Controls  */
+/* ================================================================== */
+#controls {
+	.button {
+		display: inline-block;
+		position: relative;
+
+		@media(max-width: 768px) {
+			width: 100%;
+		}
+
+		.back {
+			position: absolute;
+			width: 50px;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			@include smooth_transition(300ms);
+
+			@media(max-width: 768px) {
+				width: 100%;
+			}
+		}
+
+		img {
+			width: 26px;
+			margin: 12px;
+			vertical-align: middle;
+			z-index: 2;
+			position: relative;
+
+			&.offset {
+				margin-left: 13px;
+			}
+		}
+
+		.caption {
+			display: inline-block;
+			vertical-align: middle;
+			color: #fff;
+			margin: 12px;
+			margin-right: 24px;
+			font-size: 22px;
+			padding-top: 3px;
+			font-weight: 300;
+			letter-spacing: 1px;
+			z-index: 2;
+			position: relative;
+		}
+
+		&:hover {
+			.back {
+				width: 100%;
+			}
+		}
+	}
+
+	input {
+		display: inline-block;
+		font-family: "Noway";
+		font-size: 20px;
+		color: #fff;
+		margin: 12px 30px 12px 10px;
+		border-color: $cyan;
+		width: 350px;
+		@include smooth_transition(500ms);
+
+		&::placeholder {
+			color: #fff;
+			font-weight: 300;
+			font-size: 20px;
+		}
+
+		@media(max-width: 1024px) {
+			width: 250px;
+		}
+
+		@media(max-width: 768px) {
+			width: calc(100% - 1px);
+			margin: 30px 0;
+			padding: 6px 0;
+		}
+	}
+}
+
+body.loaded {
+	#controls {
+		.button .back {
+			-webkit-animation: rotate_assets_color 20s infinite; /* Safari 4.0 - 8.0 */
+			animation: rotate_assets_color 20s infinite;
+		}
+		
+		input {
+			-webkit-animation: rotate_border_color 20s infinite; /* Safari 4.0 - 8.0 */
+			animation: rotate_border_color 20s infinite;
+		}	
+	}
+}
+/* ================================================================== */
+/*  Footer in disguise  */
+/* ================================================================== */
+#foot {
+	img {
+		width: 150px;
+	}
+}
